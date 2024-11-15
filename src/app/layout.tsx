@@ -3,8 +3,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { SocketContextProvider } from './context';
 // import { Provider } from 'react-redux';
-import RootStore from './store';
-import Providers from './Providers';
 // import {Provider}
 // import { Provider } from '';
 
@@ -37,12 +35,8 @@ export default function RootLayout({
 					async
 				></script>
 			</head>
-			{/* <body className={`${geistSans.variable} ${geistMono.variable}`}></body> */}
 			<body>
-				<Providers>{children}</Providers>
-				{/* <Provider store={RootStore}> */}
-				{/* <SocketContextProvider>{children}</SocketContextProvider> */}
-				{/* </Provider> */}
+				<SocketContextProvider>{children}</SocketContextProvider>
 			</body>
 		</html>
 	);

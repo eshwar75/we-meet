@@ -16,6 +16,12 @@ const SocketHandler = (req: any, res: any) => {
 				socket?.join(roomId);
 				socket?.broadcast.to(roomId).emit('user-connected', userId);
 			});
+
+			socket?.on('send-message-room', (data: any) => {
+				const { roomId, message } = data;
+				console.log(`Sending message to room ${roomId}: ${message}`);
+				io.to(roomId).emit('message', message);
+			});
 		});
 	}
 	console.log('handler socket.io initialized');

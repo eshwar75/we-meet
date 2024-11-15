@@ -23,14 +23,13 @@ export default function Home() {
 	return (
 		<div style={{ margin: '2rem' }}>
 			<div className="meetingCard">
-				<p className="mainPageTitle">Hello this is testing dashboard</p>
+				<p className="mainPageTitle">Please Join the meeting</p>
 				<div className="joinmeetingactioncontainer">
-					<div className="joinmeetingvideo"></div>
+					{/* <div className="joinmeetingvideo"></div> */}
 					<div className="joinmeetingactions">
 						<Input
-							required={true}
 							id="enteryourname"
-							placeholder="Enter your name"
+							placeholder="Enter your name (optional)"
 							name="Enteryourname"
 							value={clientName}
 							onChange={(event: any) =>

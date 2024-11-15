@@ -1,31 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useContext, useEffect } from 'react';
-import {
-	// useAppDispatch,
-	// useAppSelector,
-	useMediaPermission,
-	usePeer,
-} from '../hook';
+import { usePeer } from '../hook';
 import { LiveStreamPlayer } from '@/components';
 import { SocketContext } from '../context';
 import { usePlayers } from '../hook/usePlayers';
+import Chat from '@/clientComponents/Chat';
 
 function Room() {
 	const { socketConnection } = useContext(SocketContext);
-	const { peer, userPeerId } = usePeer();
-	const { mediaDevicePermission } = useMediaPermission();
+	const { peer, userPeerId, stream } = usePeer();
 	const { players, setPlayers } = usePlayers();
 
 	useEffect(() => {
-		if (!peer || !mediaDevicePermission) {
-			return;
-		} else {
+		if (peer && stream) {
 			peer?.on('call', (call: any) => {
 				const { peer: callerId } = call;
-				call?.answer(mediaDevicePermission);
+				call?.answer(stream);
 				call.on('stream', (incomeStrem: any) => {
-					console.log(`incoming mediaDevicePermission from ${callerId}`);
+					console.log(`incoming stream from ${callerId}`);
 					setPlayers((prev: any) => ({
 						...prev,
 						[callerId]: {
@@ -37,40 +30,35 @@ function Room() {
 				});
 			});
 		}
-	}, [peer, mediaDevicePermission]);
+	}, [peer, stream]);
 
 	useEffect(() => {
-		if (!peer || !mediaDevicePermission || !socketConnection) return;
-		socketConnection.on('user-connected', handleClientConnected);
-		return () => {
-			socketConnection.off('user-connected', handleClientConnected);
-		};
-	}, [peer, mediaDevicePermission, socketConnection]);
-
-	const handleClientConnected = (newClient: string) => {
-		console.log(
-			`newClienttttttttttttttttttt: ${newClient}, ${mediaDevicePermission} ${peer}`
-		);
-		const call = peer?.call(newClient, mediaDevicePermission);
-		call.on('stream', (incomeStrem: any) => {
-			console.log(`incoming mediaDevicePermission from ${newClient}`);
-			setPlayers((prev: any) => ({
-				...prev,
-				[newClient]: {
-					url: incomeStrem,
-					muted: false,
-					palyerId: true,
-				},
-			}));
-		});
-	};
+		if (peer && stream && socketConnection) {
+			const handleClientConnected = (newClient: string) => {
+				const call = peer?.call(newClient, stream);
+				call.on('stream', (incomeStrem: any) => {
+					console.log(`incoming stream from ${newClient}`);
+					setPlayers((prev: any) => ({
+						...prev,
+						[newClient]: {
+							url: incomeStrem,
+							muted: false,
+							palyerId: true,
+						},
+					}));
+				});
+			};
+			socketConnection.on('user-connected', handleClientConnected);
+			return () => {
+				socketConnection.off('user-connected', handleClientConnected);
+			};
+		}
+	}, [peer, stream, socketConnection]);
 
 	useEffect(() => {
-		if (!peer || !mediaDevicePermission) {
-			return;
-		} else if (
+		if (
 			peer &&
-			mediaDevicePermission &&
+			stream &&
 			userPeerId &&
 			Array.isArray(players) &&
 			players.length === 0
@@ -78,47 +66,32 @@ function Room() {
 			setPlayers((prev: any) => ({
 				...prev,
 				[userPeerId]: {
-					url: mediaDevicePermission,
+					url: stream,
 					muted: false,
 					palyerId: true,
 				},
 			}));
 		}
-	}, [peer, setPlayers, mediaDevicePermission]);
-
-	// console.log(
-	// 	peer,
-	// 	setPlayers,
-	// 	mediaDevicePermission,
-	// 	'pppppppppppppppppppppppppppppppppppppppp'
-	// );
-
-	console.log(players, 'playerssssssssssssssssss', userPeerId);
+	}, [peer, setPlayers, stream]);
 
 	return (
-		<div>
-			{Object.keys(players).map((player: string) => {
-				const { url, muted, palyerId } = players[player];
-				return (
-					<LiveStreamPlayer
-						key={player}
-						url={url}
-						muted={muted}
-						playing={palyerId}
-					/>
-				);
-			})}
-		</div>
+		<>
+			<div className="stream">
+				{Object.keys(players).map((player: any) => {
+					const { url, muted, palyerId } = players[player];
+					return (
+						<LiveStreamPlayer
+							key={player}
+							url={url}
+							muted={muted}
+							playing={palyerId}
+						/>
+					);
+				})}
+			</div>
+			<Chat />
+		</>
 	);
 }
 
 export default Room;
-
-{
-	/* <LiveStreamPlayer
-ownerClientId={userPeerId}
-url={mediaDevicePermission}
-muted
-playing
-/> */
-}

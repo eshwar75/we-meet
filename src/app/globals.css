@@ -1,14 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@600&display=swap');
 
 :root {
-	--gobal-background-color: #efefec;
-	--primary-background-color: #ffffff;
-	--secondary-background-color: #1e1f1f;
+	--gobal-background-color: rgb(239, 239, 236);
+	--primary-background-color: rgb(255, 255, 255);
+	--secondary-background-color: rgb(30, 31, 31);
 	--third-background-color: rgb(211, 211, 211);
-	--primary-text-color: #ffffff;
-	--secondary-text-color: #1e1f1f;
+	--primary-text-color: rgb(255, 255, 255);
+	--secondary-text-color: rgb(30, 31, 31);
 	--button-primary-background-color: rgb(4, 145, 23);
 	--button-secondary-background-color: rgba(13, 110, 253, 1);
+	--stream-background-color: rgb(6, 6, 6);
+	--underline-primary-color: rgb(209, 207, 201);
 	--8px: 0.5rem;
 	--10px: 0.63rem;
 	--12px: 0.75rem;
@@ -43,9 +45,6 @@ p {
 	font-weight: 600;
 	font-style: normal;
 	color: var(--primary-text-color);
-	/* font-optical-sizing: auto;
-	font-weight: 600;
-	font-style: normal; */
 }
 
 .horizontalScrollStyles {
@@ -62,11 +61,7 @@ p {
 	background-color: Var(--card-primarybackground-color);
 	height: 420px;
 	width: 100%;
-	/* display: grid; */
-	/* grid-row: 1fr 1fr; */
 	display: flex;
-	/* align-items: center; */
-	/* justify-content: center; */
 	flex-direction: column;
 	border-radius: 2rem;
 	border: 2px solid var(--underline-primary-color);
@@ -74,7 +69,7 @@ p {
 }
 
 .joinmeetingactions {
-	width: 100%;
+	width: 50%;
 	height: 100%;
 	padding: 0px 15px;
 	display: flex;
@@ -83,20 +78,22 @@ p {
 	flex-direction: column;
 }
 
-.joinmeetingvideo {
+/* .joinmeetingvideo {
 	width: 100%;
 	height: 100%;
 	border-radius: 0.2rem;
-	background-color: red;
-}
+} */
 
 .joinmeetingactioncontainer {
 	width: 100%;
 	height: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	flex-direction: row;
-	/* margin: 15px 0px 0px 0px; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* display: grid; */
+	/* grid-template-columns: 1fr 1fr; */
+	/* flex-direction: row; */
+	margin: 15px 0px 0px 0px;
 }
 
 .inputField {
@@ -139,7 +136,7 @@ p {
 
 .buttonText {
 	color: var(--primary-text-color);
-	font-size: 14px;
+	font-size: var(--14px);
 	margin: 0;
 	padding: 0;
 	text-overflow: ellipsis;
@@ -148,45 +145,35 @@ p {
 	text-transform: uppercase;
 }
 
+.stream {
+	margin: 3rem;
+	height: 420px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--stream-background-color);
+}
+
 @media only screen and (max-width: 894px) {
 	.meetingCard {
-		/* background-color: Var(--card-primarybackground-color); */
-		height: 800px;
-		/* width: 100%; */
-		/* display: grid; */
-		/* grid-row: 1fr 1fr; */
-		/* display: flex; */
-		/* align-items: center; */
-		/* justify-content: center; */
-		/* flex-direction: column; */
-		/* border-radius: 2rem; */
-		/* border: 2px solid var(--underline-primary-color); */
-		/* padding: 20px; */
+		height: 100vh;
 	}
 
 	.joinmeetingactioncontainer {
-		/* width: 100%;
-		height: 100%;
-		display: grid; */
 		grid-template-columns: 1fr;
-		/* margin: 15px 0px 0px 0px; */
 	}
 
 	.joinmeetingvideo {
-		/* width: 100%; */
 		height: 450px;
-		/* border-radius: 0.2rem; */
-		/* background-color: red; */
 	}
 
 	.joinmeetingactions {
-		/* width: 100%; */
-		/* height: 100%; */
 		margin: 0px;
-		/* display: flex; */
-		/* justify-content: center; */
-		/* align-items: center; */
-		/* flex-direction: column; */
+		width: 100%;
+	}
+	.stream {
+		height: 100dvh;
+		min-height: 320px;
 	}
 }
 /* @media (min-width: 300px) and (max-width: 540px) {

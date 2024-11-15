@@ -21,7 +21,7 @@ export const SocketContextProvider: React.FC<
 
 	useEffect(() => {
 		const connection = io();
-		console.log(`socket connection ${connection}`);
+		// console.log(`socket connection ${JSON.stringify(connection)}`);
 		setSocketConnection(connection);
 	}, []);
 

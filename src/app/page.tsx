@@ -3,7 +3,6 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { SocketContext } from './context';
-import { usePeer } from './hook';
 import { Button } from '@/components/button';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
@@ -14,8 +13,6 @@ export default function Home() {
 	const { socketConnection } = useContext(SocketContext);
 	const [joinMeetingRoomId, setJoinMeetingRoomId] = useState('');
 	const [clientName, setClientName] = useState('');
-	const { userPeerId } = usePeer();
-	console.log(userPeerId, ' userPeerIdddddddddddddd');
 
 	useEffect(() => {
 		socketConnection?.on('connect', () => {

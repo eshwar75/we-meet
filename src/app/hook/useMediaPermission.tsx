@@ -6,47 +6,36 @@ export function useMediaPermission() {
 	const isStreamRef = useRef(false);
 
 	useEffect(() => {
-		if (isStreamRef.current) {
-			return;
-		} else {
-			isStreamRef.current = true;
-			// mediaPermission();
-			(async () => {
-				try {
-					const devicePermission = await navigator.mediaDevices.getUserMedia({
-						audio: true,
-						video: true,
-					});
-					console.log('media permission of devices');
-					setMediaDevicePermission(devicePermission);
-				} catch (error: any) {
-					console.log(`Device media permission ${error}`);
-					const devicePermission = await navigator.mediaDevices.getUserMedia({
-						audio: false,
-						video: false,
-					});
-					setMediaDevicePermission(devicePermission);
-				}
-			})();
+		if (isStreamRef.current) return;
+		isStreamRef.current = true;
+		if (typeof Window !== undefined) {
+			mediaPermission();
 		}
+		// (async function initstream() {
+		// 	try {
+		// 		const devicePermission = await navigator.mediaDevices.getUserMedia({
+		// 			audio: true,
+		// 			video: true,
+		// 		});
+		// 		console.log('media permission of devices');
+		// 		setMediaDevicePermission(devicePermission);
+		// 	} catch (error: any) {
+		// 		console.log(`Device media permission ${error}`);
+		// 	}
+		// })();
 	}, []);
 
-	// const mediaPermission = async () => {
-	// try {
-	// 	const devicePermission = await navigator.mediaDevices.getUserMedia({
-	// 		audio: true,
-	// 		video: true,
-	// 	});
-	// 	console.log('media permission of devices');
-	// 	setMediaDevicePermission(devicePermission);
-	// } catch (error: any) {
-	// 	console.log(`Device media permission ${error}`);
-	// 	const devicePermission = await navigator.mediaDevices.getUserMedia({
-	// 		audio: false,
-	// 		video: false,
-	// 	});
-	// 	setMediaDevicePermission(devicePermission);
-	// }
-	// };
+	const mediaPermission = async () => {
+		try {
+			const devicePermission = await navigator.mediaDevices.getUserMedia({
+				audio: true,
+				video: true,
+			});
+			console.log('media permission of devices', devicePermission);
+			setMediaDevicePermission(devicePermission);
+		} catch (error: any) {
+			console.log(`Device media permission ${error}`);
+		}
+	};
 	return { mediaDevicePermission };
 }

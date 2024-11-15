@@ -9,8 +9,13 @@ const SocketHandler = (req: any, res: any) => {
 		const io = new Server(res.socket.server);
 		res.socket.server.io = io;
 
-		io.on('connection', socket => {
+		io.on('connection', (socket: any) => {
 			console.log('handler socket.io server is connected');
+			socket?.on('join-room', (roomId: any, userId: any) => {
+				console.log(`a new member ${userId} joined room${roomId}`);
+				socket?.join(roomId);
+				socket?.broadcast.to(roomId).emit('user-connected', userId);
+			});
 		});
 	}
 	console.log('handler socket.io initialized');
@@ -18,4 +23,3 @@ const SocketHandler = (req: any, res: any) => {
 };
 
 export default SocketHandler;
-
